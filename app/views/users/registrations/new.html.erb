@@ -1,0 +1,24 @@
+<div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+  <div class="col-lg-7">
+    <div class="p-5">
+      <div class="text-center">
+        <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+      </div>
+      <%= simple_form_for(resource, :as => resource_name, :url => user_registration_path, html: { autocomplete: 'off', method: :post }) do |f| %>
+        <%= flash_messages %>
+        <%= f.input :email, required: false, placeholder: true %>
+        <%= f.input :password, required: false, placeholder: true  %>
+        <%= f.input :role, collection: ProfileEnum.options_for_collection, required: false, placeholder: true  %>
+        <div class="form-group form-actions">
+          <%= f.submit I18n.t('register'), { :class => "btn btn-primary btn-user btn-block" } %>
+        </div><!--/form-group-->
+      <% end %>
+      <hr>
+      <div class="text-center">
+        <a class="small" href="forgot-password.html">Forgot Password?</a>
+      </div>
+      <div class="text-center">
+        <a class="small" href="login.html">Already have an account? Login!</a>
+      </div>
+  </div>
+</div>

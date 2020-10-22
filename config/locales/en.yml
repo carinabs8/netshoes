@@ -1,0 +1,13 @@
+en:
+  hello: "Hello world"
+  login: Login
+  create_an_account: "Create an account"
+  register: "Register Account"
+  albums: "Albums"
+  artists: "Artists"
+  new: "Create"
+  create: "Create"
+  update: "Update"
+  edit: "Update"
+  album:
+    new: "New album"
