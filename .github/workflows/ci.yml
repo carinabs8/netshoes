@@ -1,0 +1,74 @@
+# .github/workflows/ci.yml
+
+name: CI
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      db:
+        image: postgres:10.6
+        ports: ['5432:5432']
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      redis:
+        image: redis
+        ports: ['6379:6379']
+        options: --entrypoint redis-server
+      memcached:
+        image: memcached:latest
+        ports: ['11211:11211']
+        # needed because the memcached container does not provide a healthcheck
+        options: --health-cmd "timeout 5 bash -c 'cat < /dev/null > /dev/udp/127.0.0.1/11211'" --health-interval 10s --health-timeout 5s --health-retries 5
+    steps:
+      # - name: Notify the start
+      #   uses: innocarpe/actions-slack@v1
+      #   with:
+      #     status: ${{ job.status }}
+      #     success_text: '<!subteam^S1ABC2DEF> @${{ github.actor }} just started the workflow for `${{ github.ref }}`'
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - uses: actions/checkout@v1
+      - name: Setup Ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.7.1
+      - uses: borales/actions-yarn@v2.0.0
+        with:
+          cmd: install
+      - name: Install dependent libraries
+        run: sudo apt-get -yqq install libpq-dev
+      - uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-  
+      - name: Bundle install
+        env:
+          RAILS_ENV: test
+          BUNDLE_GITHUB__COM: x-access-token:${{ secrets.BUNDLE_GITHUB__COM }}    
+        run: |
+          command -v bundler | gem install bundler
+          bundle config path vendor/bundle
+          bundle install --jobs 4 --retry 3
+      - name: Setup db
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:@localhost:5432/test
+        run: |
+          bundle exec rake db:create
+          bundle exec rake db:schema:load  
+
+      - name: Run Unit Tests
+        env:
+          DATABASE_URL: postgres://postgres:@localhost:5432/test
+          REDIS_URL: redis://localhost:6379/0
+          RAILS_ENV: test
+        run: |
+          bundle exec rspec spec --format progress
