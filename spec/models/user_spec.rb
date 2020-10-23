@@ -2,7 +2,7 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  let(:user){ create(:user) }
+  let(:user){ build(:user) }
   context :validations do
     [:role, :email].each do |attr|
       it "Cannot be blank" do
@@ -11,7 +11,7 @@ RSpec.describe User, type: :model do
       end
     end
 
-    it "Role have to be included in [admin, user]" do
+    it "Role have to be included in [admin]" do
       user.role = "messager"
       expect(user.valid?).to eq(false)
       expect(user.errors.messages).to eq({:role=>["is not included in the list"]})
