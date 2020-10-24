@@ -1,6 +1,5 @@
 import videojs from "video.js/dist/video.min.js";
 window.videojs = videojs;
-require("./videotrack.min.js");
 require("video.js/src/css/vjs.scss");
 
 $(document).ready(function () {
