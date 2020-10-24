@@ -7,4 +7,6 @@ Rails.application.routes.draw do
   }
 
   resources :videos
+
+  resources :video_viewers, only: [:create]
 end

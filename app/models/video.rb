@@ -3,4 +3,9 @@ class Video < ApplicationRecord
 	validates :url, presence: true, format: { with: /\Ahttp(s|):\/{2}(.{1,}\D){1,}\.m3u8\Z/i, allow_blank: false }
 
 	belongs_to :user
+
+	def update_viewers
+		self.viewers +=1
+		self.save
+	end
 end

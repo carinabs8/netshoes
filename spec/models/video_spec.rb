@@ -29,4 +29,13 @@ RSpec.describe Video, type: :model do
       end
     end
   end
+
+  context :update_viewers do
+    it "Should be updated" do
+      video.viewers = 0
+      video.save
+      video.update_viewers
+      expect(video.viewers).to eq(1)
+    end
+  end
 end

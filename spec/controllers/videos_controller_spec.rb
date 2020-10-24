@@ -20,6 +20,53 @@ RSpec.describe VideosController, :type => :controller do
     end
   end
 
+  describe "GET 'edit'" do
+    context "As Admin" do
+      it "Should be access as owner's post" do
+        sign_in(user)
+        video = create(:video, user: user)
+        get 'edit', params: { id: video.id }
+        expect(response).to have_http_status(:success)
+      end
+
+    end
+    context "As non owner's post" do
+      it "Should not access this page" do
+        sign_in(user)
+        video = create(:video, user: create(:user, role: :admin))
+        get 'edit', params: { id: video.id }
+        expect(response).to redirect_to(videos_path)
+      end
+    end
+  end
+
+  describe "GET 'update'" do
+    context "As Admin" do
+      it "Should be access as owner's post" do
+        sign_in(user)
+        video = create(:video, user: user)
+        put 'update', params: { id: video.id, video: {name: "New name"} }
+        expect(response).to redirect_to(videos_path)
+      end
+
+      it "Should NOT update with invalid params" do
+        sign_in(user)
+        video = create(:video, user: user)
+        put 'update', params: { id: video.id, video: {name: ""} }
+        expect(response).to render_template("videos/edit")
+      end
+
+    end
+    context "As non owner's post" do
+      it "Should not access this page" do
+        sign_in(user)
+        video = create(:video, user: create(:user, role: :admin))
+        put 'update', params: { id: video.id, video: {name: "New name"} }
+        expect(response).to redirect_to(videos_path)
+      end
+    end
+  end
+
   describe "GET 'create'" do
     context "As Admin" do
 
@@ -50,6 +97,22 @@ RSpec.describe VideosController, :type => :controller do
         get :index
         expect(response).to have_http_status(:success)
       end
+    end
+  end
+
+  describe "DELETE" do
+    it "Should delete his videos" do
+      video = create(:video, user: user)
+      sign_in(user)
+      delete :destroy, params: {id: video.id}
+      expect(response).to redirect_to(videos_path)
+    end
+
+    it "Should NOT delete someone else videos" do
+      video = create(:video, user: create(:user, role: :admin))
+      sign_in(user)
+      delete :destroy, params: {id: video.id}
+      expect(response).to redirect_to(videos_path)
     end
   end
 end

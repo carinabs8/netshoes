@@ -11,3 +11,5 @@ en:
   video:
     new: "New video"
     create: "New video"
+    edit: "Edit Video"
+    update: "Edit video"

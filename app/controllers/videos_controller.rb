@@ -15,14 +15,39 @@ class VideosController < ApplicationController
 		authorize @video
 
 		if @video.save
-			redirect_to videos_path, notice: "Successfully created"
+			redirect_to videos_path, success: "Successfully created"
 		else
 			render :new
 		end
 	end
 
+	def edit
+		@video = Video.where(id: params[:id]).first
+		authorize @video
+	end
+
+	def update
+		@video = Video.where(id: params[:id]).first
+		authorize @video
+		@video.attributes = videos_params
+
+		if(@video.save)
+			redirect_to videos_path, success: "Successfully updated"
+		else
+			render :edit
+		end
+	end
+
+	def destroy
+		@video = Video.where(id: params[:id]).first
+		authorize @video
+
+		@video.destroy
+		redirect_to videos_path({page: params[:page]}), success: "Successfully deleted"
+	end
+
 	protected
 	def videos_params
-		params.require(:video).permit(:name, :url, :user_id)
+		params.require(:video).permit(:name, :url)
 	end
 end

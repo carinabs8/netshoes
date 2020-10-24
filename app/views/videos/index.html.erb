@@ -1,3 +1,4 @@
+<%= stylesheet_pack_tag 'video.js/src/css/vjs.scss', media: 'all', 'data-turbolinks-track': 'reload' %>
 <div class="row">
 	<div class="col-sm-8">
 		<h1>
@@ -12,15 +13,18 @@
 	</div>
 </div>
 <div class="row">
+	<span id="video-options-url" data-url="<%= video_viewers_path %>" data-authenticy="<%= form_authenticity_token %>"></span>
 	<% @videos.each do |video| %>
 		<div class="card" style="width: 18rem;">
 		  <div class="card-body">
-		    <h5 class="card-title"><%= video.name %></h5>
-		    <h6 class="card-subtitle mb-2 text-muted"><%= video.url %></h6>
+		    <h5 class="card-title videojs-title"><%= video.name %></h5>
+		    <video id="videojs-<%= video.id %>" data-id="<%= video.id%>" class="video-js" controls autoplay preload="auto" autoplay="true" muted width="640" height="264" data-setup='{ "controlBar": { "muteToggle": true } }'>
+		    	<source src="<%= @videos.first.url%>" type="application/x-mpegURL" />
+		    </video>
 
 		    <%= link_to t(:update), edit_video_path(video.id), class: "card-link" %>
-		    <%# if policy(video).delete? %>
-			    <%#= link_to t(:delete), video_path(video.id), class: "card-link", data: {:confirm => 'Are you sure?'}, :method => :delete  %>
+		    <% if policy(video).destroy? %>
+			    <%= link_to t(:delete), video_path(video.id, page: params[:page]), class: "card-link", data: {:confirm => 'Are you sure?'}, :method => :delete  %>
 		    <% end %>
 
 		  </div>
@@ -28,3 +32,4 @@
 	<% end %>
 	<%= paginate @videos %>
 </div>
+<%= javascript_pack_tag "videos/index.js" %>

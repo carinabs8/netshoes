@@ -12,7 +12,11 @@ class VideoPolicy < ApplicationPolicy
   	true
   end
 
-  def update
+  def update?
+  	user && record.user_id == user.id
+  end
+
+  def destroy?
   	user && record.user_id == user.id
   end
 end
