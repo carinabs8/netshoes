@@ -11,7 +11,7 @@ class VideosController < ApplicationController
 	end
 
 	def create
-		@video = Video.new(videos_params)
+		@video = Video.new(videos_params.merge({user_id: current_user.id}))
 		authorize @video
 
 		if @video.save
@@ -23,6 +23,6 @@ class VideosController < ApplicationController
 
 	protected
 	def videos_params
-		params.require(:video).permit(:name, :url)
+		params.require(:video).permit(:name, :url, :user_id)
 	end
 end

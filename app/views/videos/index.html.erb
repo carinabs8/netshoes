@@ -18,10 +18,10 @@
 		    <h5 class="card-title"><%= video.name %></h5>
 		    <h6 class="card-subtitle mb-2 text-muted"><%= video.url %></h6>
 
-		    <%#= link_to t(:update), edit_video_path(video.id), class: "card-link" %>
+		    <%= link_to t(:update), edit_video_path(video.id), class: "card-link" %>
 		    <%# if policy(video).delete? %>
 			    <%#= link_to t(:delete), video_path(video.id), class: "card-link", data: {:confirm => 'Are you sure?'}, :method => :delete  %>
-		    <%# end %>
+		    <% end %>
 
 		  </div>
 		</div>

@@ -25,9 +25,9 @@ RSpec.describe Users::SessionsController, :type => :controller do
       expect(flash["alert"]).to eq("Sorry, we couldn't find an account with this username. Please check you're using the right username and try again.")
     end
 
-    it "Should redirect to Artists list when succefully logged" do
+    it "Should redirect to Video list when succefully logged" do
       post :create, params: {user: {email: user.email, password: user.password}}
-      expect(response).to redirect_to(root_path)
+      expect(response).to redirect_to(videos_path)
     end
   end
 
