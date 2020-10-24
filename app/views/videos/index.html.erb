@@ -17,7 +17,7 @@
 	<% @videos.each do |video| %>
 		<div class="card" style="width: 18rem;">
 		  <div class="card-body">
-		    <h5 class="card-title videojs-title"><%= video.name %></h5>
+		    <h5 class="card-title videojs-title"><%= video.name %> - (<%= video.viewers %> Visualizations)</h5>
 		    <video id="videojs-<%= video.id %>" data-id="<%= video.id%>" class="video-js" controls autoplay preload="auto" autoplay="true" muted width="640" height="264" data-setup='{ "controlBar": { "muteToggle": true } }'>
 		    	<source src="<%= @videos.first.url%>" type="application/x-mpegURL" />
 		    </video>

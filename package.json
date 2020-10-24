@@ -12,11 +12,11 @@
     "popover": "^2.4.1",
     "popper.js": "^1.12.9",
     "resolve-url-loader": "^3.1.1",
-    "turbolinks": "^5.2.0"
+    "turbolinks": "^5.2.0",
+    "video.js": "7.10.1"
   },
   "version": "0.1.0",
   "devDependencies": {
-    "video.js": "^7.10.1",
     "webpack-dev-server": "^3.11.0"
   },
   "description": "This README would normally document whatever steps are necessary to get the application up and running.",
