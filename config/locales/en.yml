@@ -3,11 +3,11 @@ en:
   login: Login
   create_an_account: "Create an account"
   register: "Register Account"
-  albums: "Albums"
-  artists: "Artists"
+  videos: "Videos"
   new: "Create"
   create: "Create"
   update: "Update"
   edit: "Update"
-  album:
-    new: "New album"
+  video:
+    new: "New video"
+    create: "New video"

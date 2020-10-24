@@ -27,6 +27,6 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def after_sign_in_path_for(resource)
-    root_path
+    videos_path
   end
 end

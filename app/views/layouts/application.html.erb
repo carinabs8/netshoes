@@ -29,16 +29,9 @@
 
       <!-- Nav Item - Pages Collapse Menu -->
       <li class="nav-item">
-        <%= link_to :albums, class:  "nav-link" do %>
+        <%= link_to videos_path, class:  "nav-link" do %>
           <%= content_tag :i, "", class: "fa fa-fw fa-cog" %>
-          <%= content_tag :span, t(:albums) %>
-        <% end %>
-      </li>
-
-      <li class="nav-item">
-        <%= link_to :artists, class:  "nav-link" do %>
-          <%= content_tag :i, "", class: "fa fa-fw fa-cog" %>
-          <%= content_tag :span, t(:artists) %>
+          <%= content_tag :span, t(:videos) %>
         <% end %>
       </li>
       <!-- Divider -->

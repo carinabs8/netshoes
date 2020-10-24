@@ -12,14 +12,19 @@ RSpec.describe Video, type: :model do
       end
     end
 
-    context :email do
+    context :url do
       it "Should NOT be VALID an extension 'txt'" do
         video.url = Faker::Internet.url(host: 'example.com', path: '/foobar.txt')
         expect(video.valid?).to eq(false)
       end
 
       it "Should be valid an extension 'm3u8'" do
-        video.url = Faker::Internet.url(host: 'example.com', path: '/foobar.txt')
+        video.url = Faker::Internet.url(host: 'example.com', path: '/foobar.m3u8')
+        expect(video.valid?).to eq(true)
+      end
+
+      it "Should NOT be valid without HTTP on the beginning" do
+        video.url = "://media.publit.io/file/ToriiGates.m3u8"
         expect(video.valid?).to eq(false)
       end
     end

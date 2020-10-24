@@ -1,0 +1,4 @@
+<h1><%= t(:new, scope: [:video]) %></h1>
+<div class="row">
+	<%= render partial: "form", locals: {form: @video, button_submit: t(:create)} %>
+</div>
